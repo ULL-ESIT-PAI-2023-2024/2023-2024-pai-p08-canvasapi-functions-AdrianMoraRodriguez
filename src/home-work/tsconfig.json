@@ -1,14 +1,14 @@
 {
-  "display": "Configurationfor Graphics Programming in PAI",
+  "display": "Configuration for Graphics Programming in PAI",
   "compilerOptions": {
     "moduleResolution": "node",
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "target": "es2022",
-    "module": "commonjs",
+    "target": "es2015",
+    "module": "es2015",
     "allowJs": true,
     "rootDir": "./",
-    "outDir": "./dist",
+    "outDir": "./",
     "declaration": true,
     "alwaysStrict": true,                     /* Parse in strict mode and emit "use strict" for each source file */
     "strict": true,                           /* Enable all strict type-checking options */

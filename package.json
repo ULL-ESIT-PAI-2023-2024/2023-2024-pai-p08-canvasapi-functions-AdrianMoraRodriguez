@@ -1,5 +1,5 @@
 {
-  "name": "Práctica 8 de PAI",
+  "name": "practica8depai",
   "version": "1.0.0",
   "description": "Canvas API. Function representation",
   "private": true,
@@ -8,6 +8,7 @@
     "push": "rm *~; git pull; git add . ; git commit -m 'Code improvement'; git push",
     "pull": "git pull",
     "test": "jest",
+    "web": "node app.cjs",
     "lint:ci": "eslint . --ext .tsx,.ts",
     "start": "tsc-watch --onSuccess \"node dist/index.js\""
   },
@@ -31,5 +32,8 @@
     "tsc-watch": "^6.0.0",
     "typedoc": "^0.23.25",
     "typescript": "^4.9.5"
+  },
+  "dependencies": {
+    "express": "^4.18.3"
   }
 }
