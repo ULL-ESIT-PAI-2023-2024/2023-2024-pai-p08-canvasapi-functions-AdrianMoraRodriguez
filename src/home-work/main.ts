@@ -17,11 +17,11 @@ import { SquareRootFunction } from './squareroot_function.js';
 import { View } from './view.js';
 
 function main() {
-  let scale = 30;
+  let scale = 35;
   let view: View = new View(scale);
-  let firstGradeFunction = new SquareRootFunction(scale, 1);
+  let functionToUse = new SinFunction('red', scale, 1);
   view.drawAxis();
-  view.drawFunction(firstGradeFunction);
+  view.drawMoreThanOneFunction([functionToUse], 14);
 }
 
 main()

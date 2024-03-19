@@ -13,6 +13,7 @@ import {Function} from './function.js';
 import { Axis } from './axis.js';
 
 export class View {
+  private axis: Axis;
   /**
    * @desc Constructor de la clase View
    * @param {HTMLCanvasElement} canvas Canvas del documento
@@ -23,6 +24,7 @@ export class View {
     private context: CanvasRenderingContext2D = canvas.getContext('2d') as CanvasRenderingContext2D) {
       this.scale = scale;
       context.translate(canvas.width / 2, canvas.height / 2);
+      this.axis = new Axis(this.scale)
     }
 
   /**
@@ -31,6 +33,14 @@ export class View {
    */
   public drawFunction(functionToDraw: Function): void {
     functionToDraw.draw(this.context);
+  }
+
+  public drawMoreThanOneFunction(functionsToDraw: Function[],grade: number): void {
+    for (let functionToDraw of functionsToDraw) {
+      functionToDraw.draw(this.context);
+      functionToDraw.drawAprox(grade, this.context)
+
+    }
   }
 
   public drawAxis(): void {

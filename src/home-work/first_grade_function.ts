@@ -12,7 +12,7 @@
 import { Function } from './function.js';
 
 export class FirstGradeFunction implements Function {
-  constructor(private scale: number,private slope: number = 1, private constant: number = 0) {
+  constructor(private color: string, private scale: number,private slope: number = 1, private constant: number = 0) {
     this.scale = scale;
     this.slope = slope;
     this.constant = constant;
@@ -23,7 +23,7 @@ export class FirstGradeFunction implements Function {
    * @returns the result of evaluating the function at the given point 
    */
   evaluate(pointToEvaluate: number): number {
-    return -this.slope * pointToEvaluate + this.constant;
+    return this.slope * pointToEvaluate + this.constant;
   }
 
   /**
@@ -31,6 +31,22 @@ export class FirstGradeFunction implements Function {
    */
   toString(): string {
     return `${this.slope}x + ${this.constant}`;
+  }
+
+  drawAprox(grade: number, context:CanvasRenderingContext2D): void {
+    context.moveTo(0, this.evaluate(0));
+    context.beginPath();
+    context.strokeStyle = this.color;
+    context.lineWidth = 2;
+    let canvasWidth = context.canvas.width;
+    for (let actualX = -canvasWidth; actualX < canvasWidth; actualX++) {
+      let actualY = -this.evaluate(actualX / this.scale) * this.scale;
+      if (actualY < - context.canvas.height ) {
+        continue;
+      }
+      context.lineTo(actualX, this.evaluate(actualX/this.scale)* this.scale);
+    }
+    context.stroke();
   }
 
   /**
@@ -42,11 +58,11 @@ export class FirstGradeFunction implements Function {
     context.lineWidth = 2;
     context.moveTo(0, this.evaluate(0));
     let canvasWidth = context.canvas.width;
-    for (let actualX = 0; actualX < canvasWidth; actualX= actualX + this.scale) {
-      context.lineTo(actualX, this.evaluate(actualX/ this.scale) * this.scale);
-    }
-    context.moveTo(0, this.evaluate(0));
-    for (let actualX = 0; actualX > 0 - (canvasWidth / 2); actualX = actualX - this.scale) {
+    for (let actualX = -canvasWidth; actualX < canvasWidth; actualX++) {
+      let actualY = -this.evaluate(actualX / this.scale) * this.scale;
+      if (actualY < - context.canvas.height ) {
+        continue;
+      }
       context.lineTo(actualX, this.evaluate(actualX/ this.scale) * this.scale);
     }
     context.stroke();

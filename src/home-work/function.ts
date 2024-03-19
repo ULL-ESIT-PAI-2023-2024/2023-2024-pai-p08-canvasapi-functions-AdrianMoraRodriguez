@@ -9,9 +9,12 @@
  * @desc Implementación de la interfaz Function
  */
 
-
+/**
+ * Interfaz que representa una función matemática
+ */
 export interface Function {
-  evaluate(x: number): number;
+  evaluate(pointToEvaluate: number): number;
   toString(): string;
   draw(context: CanvasRenderingContext2D): void;
+  drawAprox(grade: number, context:CanvasRenderingContext2D): void;
 }

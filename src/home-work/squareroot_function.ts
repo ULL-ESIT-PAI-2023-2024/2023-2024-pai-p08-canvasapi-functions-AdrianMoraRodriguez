@@ -12,7 +12,8 @@
 import { Function } from "./function";
 
 export class SquareRootFunction implements Function {
-  constructor(private scale: number,private slope: number = 1, private constant: number = 0) {
+  constructor(private color: string,private scale: number,private slope: number = 1, private constant: number = 0) {
+    this.color = color;
     this.scale = scale;
     this.slope = slope;
     this.constant = constant;
@@ -23,7 +24,7 @@ export class SquareRootFunction implements Function {
    * @returns the result of evaluating the function at the given point 
    */
   evaluate(pointToEvaluate: number): number {
-    return -this.slope * Math.sqrt(pointToEvaluate) + this.constant;
+    return this.slope * Math.sqrt(pointToEvaluate) + this.constant;
   }
 
   /**
@@ -31,6 +32,22 @@ export class SquareRootFunction implements Function {
    */
   toString(): string {
     return `${this.slope} * sqrt(x) + ${this.constant}`;
+  }
+
+  drawAprox(grade: number, context:CanvasRenderingContext2D): void {
+    context.moveTo(0, this.evaluate(0));
+    context.beginPath();
+    context.strokeStyle = this.color;
+    context.lineWidth = 2;
+    let canvasWidth = context.canvas.width;
+    for (let actualX = -canvasWidth; actualX < canvasWidth; actualX++) {
+      let actualY = -this.evaluate(actualX / this.scale) * this.scale;
+      if (actualY < - context.canvas.height ) {
+        continue;
+      }
+      context.lineTo(actualX, this.evaluate(actualX/this.scale)* this.scale);
+    }
+    context.stroke();
   }
 
   /**
@@ -41,7 +58,11 @@ export class SquareRootFunction implements Function {
     context.strokeStyle = 'blue';
     context.lineWidth = 2;
     let canvasWidth = context.canvas.width;
-    for (let actualX = 0; actualX < canvasWidth; actualX= actualX + this.scale) {
+    for (let actualX = 0; actualX < canvasWidth; actualX++) {
+      let actualY = -this.evaluate(actualX / this.scale) * this.scale;
+      if (actualY < - context.canvas.height ) {
+        continue;
+      }
       context.lineTo(actualX, this.evaluate(actualX/ this.scale) * this.scale);
     }
     context.stroke();

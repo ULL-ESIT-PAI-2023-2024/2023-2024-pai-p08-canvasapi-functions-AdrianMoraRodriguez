@@ -1,3 +1,13 @@
+/**
+ * Universidad de La Laguna
+ * Escuela Superior de Ingeniería y Tecnología
+ * Grado en Ingeniería Informática
+ * Programación de Aplicaciones Interactivas 2021-2022
+ *
+ * @author Adrián Mora Rodríguez
+ * @since Mar 16 2024
+ * @desc Implementación de la Clase encargada de dibujar el eje de coordenadas
+ */
 export class Axis {
     constructor(scale) {
         this.scale = scale;
@@ -43,10 +53,11 @@ export class Axis {
         context.beginPath();
         context.strokeStyle = 'grey';
         context.lineWidth = 1;
+        let separation = 10;
         let canvasWidth = context.canvas.width;
         for (let actualX = 0; actualX < canvasWidth; actualX += this.scale) {
             context.moveTo(actualX, -context.canvas.height);
-            for (let height = 5 - context.canvas.height; height < context.canvas.height; height += 10) {
+            for (let height = 5 - context.canvas.height; height < context.canvas.height; height += separation) {
                 context.lineTo(actualX, height);
                 context.moveTo(actualX, height + 5);
                 height += 5;
@@ -57,7 +68,7 @@ export class Axis {
         context.moveTo(0, 0);
         for (let actualX = 0; actualX > 0 - (canvasWidth / 2); actualX -= this.scale) {
             context.moveTo(actualX, -context.canvas.height);
-            for (let height = -context.canvas.height; height < context.canvas.height; height += 10) {
+            for (let height = -context.canvas.height; height < context.canvas.height; height += separation) {
                 context.lineTo(actualX, height);
                 context.moveTo(actualX, height + 5);
                 height += 5;
@@ -90,5 +101,11 @@ export class Axis {
             }
         }
         context.stroke();
+    }
+    draw(context) {
+        this.drawAxis(context);
+        this.drawNumberUnits(context);
+        this.drawVerticalLines(context);
+        this.drawHorizontalLines(context);
     }
 }

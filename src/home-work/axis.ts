@@ -55,10 +55,11 @@ export class Axis {
     context.beginPath();
     context.strokeStyle = 'grey';
     context.lineWidth = 1;
+    let separation = 10;
     let canvasWidth = context.canvas.width;
     for (let actualX = 0; actualX < canvasWidth; actualX += this.scale) {
       context.moveTo(actualX, -context.canvas.height);
-      for (let height = 5 - context.canvas.height; height < context.canvas.height; height += 10) {
+      for (let height = 5 - context.canvas.height; height < context.canvas.height; height += separation) {
         context.lineTo(actualX, height);
         context.moveTo(actualX, height + 5);
         height += 5;
@@ -69,7 +70,7 @@ export class Axis {
     context.moveTo(0, 0);
     for (let actualX = 0; actualX > 0 - (canvasWidth / 2); actualX -= this.scale) {
       context.moveTo(actualX, -context.canvas.height);
-      for (let height = - context.canvas.height; height < context.canvas.height; height += 10) {
+      for (let height = - context.canvas.height; height < context.canvas.height; height += separation) {
         context.lineTo(actualX, height);
         context.moveTo(actualX, height + 5);
         height += 5;
@@ -103,5 +104,12 @@ export class Axis {
       }
     }
     context.stroke();
+  }
+
+  draw(context: CanvasRenderingContext2D): void {
+    this.drawAxis(context);
+    this.drawNumberUnits(context);
+    this.drawVerticalLines(context);
+    this.drawHorizontalLines(context);
   }
 }

@@ -1,0 +1,13 @@
+{
+  "entryPoints": [
+    "./src/home-work/axis.ts",
+    "./src/home-work/exponential_function.ts",
+    "./src/home-work/first_grade_function.ts",
+    "./src/home-work/second_grade_function.ts",
+    "./src/home-work/sin_function.ts",
+    "./src/home-work/function.ts",
+    "./src/home-work/squareroot_function.ts",
+    "./src/home-work/view.ts"
+  ],
+  "out": "./docs"
+}

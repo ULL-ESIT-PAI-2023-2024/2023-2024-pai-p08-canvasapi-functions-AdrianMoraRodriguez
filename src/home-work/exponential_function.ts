@@ -11,13 +11,23 @@
 
 import { Function } from "./function";
 
+function factorial(numberToCalculate: number): number {
+  let factorial = 1;
+  for (let actualNuber = 1; actualNuber <= numberToCalculate; actualNuber++) {
+    factorial *= actualNuber;
+  }
+  return factorial;  
+}
+
 export class ExponentialFunction implements Function {
   constructor(
+    private color: string,
     private scale: number,
     private base: number = 1,
     private exponent: number = 1,
     private constant: number = 0
   ) {
+    this.color = color;
     this.scale = scale;
     this.base = base;
     this.exponent = exponent;
@@ -29,7 +39,7 @@ export class ExponentialFunction implements Function {
    * @returns the result of evaluating the function at the given point
    */
   evaluate(pointToEvaluate: number): number {
-    return - Math.pow(this.base, this.exponent * pointToEvaluate) + this.constant;
+    return Math.pow(this.base, this.exponent * pointToEvaluate) + this.constant;
   }
 
   /**
@@ -39,23 +49,46 @@ export class ExponentialFunction implements Function {
     return `${this.base}^(${this.exponent}x) + ${this.constant}`;
   }
 
+  evaluateAproxByTaylor(pointToEvaluate: number, gradeToEvaluate: number): number {
+    let aproximateSum = 1 + pointToEvaluate;
+    for (let grade = 2; grade <= gradeToEvaluate; grade++) {
+      aproximateSum += Math.pow(pointToEvaluate, grade) / factorial(grade);
+    }
+    return aproximateSum;
+  }
+
+  drawAprox(grade: number, context:CanvasRenderingContext2D): void {
+    context.moveTo(0, this.evaluateAproxByTaylor(0, grade));
+    context.beginPath();
+    context.strokeStyle = this.color;
+    context.lineWidth = 2;
+    let canvasWidth = context.canvas.width;
+    for (let actualX = -canvasWidth; actualX < canvasWidth; actualX++) {
+      let actualY = -this.evaluateAproxByTaylor(actualX / this.scale, grade) * this.scale;
+      if (actualY < - context.canvas.height ) {
+        continue;
+      }
+      context.lineTo(actualX, this.evaluateAproxByTaylor(actualX/this.scale, grade)* this.scale);
+    }
+    context.stroke();
+  }
+
   /**
    * @param context the canvas context in which the function will be drawn
    */
   draw(context: CanvasRenderingContext2D): void {
     context.beginPath();
-    context.moveTo(0, this.evaluate(0));
-    context.strokeStyle = "blue";
+    context.strokeStyle = 'blue';
     context.lineWidth = 2;
     let canvasWidth = context.canvas.width;
-    for (let actualX = 0; actualX < canvasWidth; actualX = actualX + this.scale) {
-      context.lineTo(actualX,this.evaluate(actualX / this.scale) * this.scale); //Esta linea falla
+    for (let actualX =-canvasWidth; actualX < canvasWidth; actualX++) {
+      console.log(this.evaluate(actualX / this.scale) * this.scale);
+      let actualY = -this.evaluate(actualX / this.scale) * this.scale;
+      if (actualY < - context.canvas.height ) {
+        continue;
+      }
+      context.lineTo(actualX,actualY);
     }
     context.stroke()
-    context.beginPath()
-    for (let actualX = 0; actualX > 0 - canvasWidth / 2; actualX = actualX - this.scale) {
-      context.lineTo(actualX,this.evaluate(actualX / this.scale) * this.scale);
-    }
-    context.stroke();
   }
 }
